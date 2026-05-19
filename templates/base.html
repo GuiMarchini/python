@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}<p>NOTAS<p>{% endblock %}</title>
+    
+</head>
+<body>
+    {% block content %}
+
+        {% for aluno in alunos %}
+        <p>Nome: {{ aluno.nome }}</p>
+        <p>Nota: {{ aluno.nota }}</p>
+
+        {% if aluno.nota >= 7 %}
+            <p>Situação: Aprovado</p>
+        {% else %}
+            <p>Situação: Reprovado</p>
+        {% endif %}
+        {% endfor %}
+
+    {% endblock %}
+
+    
+</body>
+</html>
