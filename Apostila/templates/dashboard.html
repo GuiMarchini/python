@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1>Olá, {{ session["usuario_nome"] }}!</h1>
+        <p class="text-secondary mb-0">Organize suas tarefas.</p>
+    </div>
+
+    <a href="{{ url_for('tarefas.nova_tarefa') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Nova tarefa
+    </a>
+</div>
+
+<div class="alert alert-warning">
+    <strong>Frase do dia:</strong> {{ frase }}
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <label class="form-label">Filtrar por status</label>
+        <select id="filtro" class="form-select">
+            <option>Todos</option>
+            <option>Pendente</option>
+            <option>Em andamento</option>
+            <option>Concluída</option>
+        </select>
+    </div>
+</div>
+
+<div id="lista-tarefas" class="row g-3">
+    {% for tarefa in tarefas %}
+    <div class="col-md-6 tarefa-card">
+        <div class="card h-100 shadow-sm status-{{ tarefa['status']|lower|replace(' ', '-') }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ tarefa["titulo"] }}</h5>
+                <p class="card-text">{{ tarefa["descricao"] or "Sem descrição." }}</p>
+
+                <span class="badge
+                    {% if tarefa['status'] == 'Pendente' %}bg-warning text-dark
+                    {% elif tarefa['status'] == 'Em andamento' %}bg-primary
+                    {% else %}bg-success{% endif %}">
+                    {{ tarefa["status"] }}
+                </span>
+            </div>
+
+            <div class="card-footer d-flex gap-2">
+                <a class="btn btn-sm btn-outline-primary"
+                   href="{{ url_for('tarefas.editar', id=tarefa['id']) }}">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+
+                {% if tarefa["status"] != "Concluída" %}
+                <a class="btn btn-sm btn-outline-success"
+                   href="{{ url_for('tarefas.concluir', id=tarefa['id']) }}">
+                    <i class="bi bi-check-lg"></i> Concluir
+                </a>
+                {% endif %}
+
+                <a class="btn btn-sm btn-outline-danger"
+                   href="{{ url_for('tarefas.excluir', id=tarefa['id']) }}"
+                   onclick="return confirm('Deseja realmente excluir esta tarefa?')">
+                    <i class="bi bi-trash"></i> Excluir
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-secondary">Nenhuma tarefa cadastrada.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("filtro").addEventListener("change", async function () {
+    const status = this.value;
+
+    const resposta = await fetch(
+        "{{ url_for('api.api_tarefas') }}?status=" + encodeURIComponent(status)
+    );
+
+    const tarefas = await resposta.json();
+    const lista = document.getElementById("lista-tarefas");
+
+    if (tarefas.length === 0) {
+        lista.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-secondary">
+                    Nenhuma tarefa encontrada.
+                </div>
+            </div>`;
+        return;
+    }
+
+    lista.innerHTML = tarefas.map(tarefa => {
+        let classe = "bg-warning text-dark";
+
+        if (tarefa.status === "Em andamento") {
+            classe = "bg-primary";
+        } else if (tarefa.status === "Concluída") {
+            classe = "bg-success";
+        }
+
+        return `
+        <div class="col-md-6 tarefa-card">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">${tarefa.titulo}</h5>
+                    <p class="card-text">
+                        ${tarefa.descricao || "Sem descrição."}
+                    </p>
+                    <span class="badge ${classe}">
+                        ${tarefa.status}
+                    </span>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="/editar/${tarefa.id}">
+                        <i class="bi bi-pencil"></i> Editar
+                    </a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       href="/excluir/${tarefa.id}"
+                       onclick="return confirm('Deseja realmente excluir esta tarefa?')">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </div>
+            </div>
+        </div>`;
+    }).join("");
+});
+</script>
+{% endblock %}

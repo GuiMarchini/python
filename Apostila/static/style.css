@@ -1,0 +1,218 @@
+/* ===========================
+        TEMA COLORIDO
+=========================== */
+
+body{
+    background:#fafafa;
+    color:#333;
+    font-family:'Poppins',sans-serif;
+}
+
+/* Cards */
+
+.card{
+    border:none;
+    border-radius:22px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 25px 50px rgba(0,0,0,.12);
+}
+
+/* Cabeçalho */
+
+.card-header{
+    background:linear-gradient(135deg,#ff6ec7,#ff9671,#ffc75f);
+    color:white;
+    font-weight:700;
+    font-size:1.15rem;
+    border:none;
+    padding:18px;
+}
+
+/* Rodapé */
+
+.card-footer{
+    background:#fff6f8;
+    border:none;
+}
+
+/* Inputs */
+
+.form-control,
+.form-select{
+
+    border-radius:15px;
+    border:2px solid #ececec;
+    background:#ffffff;
+    padding:12px;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#ff6ec7;
+    box-shadow:0 0 0 5px rgba(255,110,199,.15);
+
+}
+
+/* Botões */
+
+.btn{
+
+    border-radius:50px;
+    border:none;
+    padding:12px 24px;
+    font-weight:600;
+    transition:.25s;
+
+}
+
+.btn-primary{
+
+    background:linear-gradient(135deg,#ff6ec7,#845ef7);
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+    filter:brightness(1.05);
+
+}
+
+.btn-success{
+
+    background:linear-gradient(135deg,#38d39f,#43e97b);
+
+}
+
+.btn-danger{
+
+    background:linear-gradient(135deg,#ff5858,#ff914d);
+
+}
+
+.btn-warning{
+
+    background:linear-gradient(135deg,#ffd43b,#ffb703);
+    color:#333;
+
+}
+
+/* Cards das tarefas */
+
+.tarefa-card .card{
+
+    border-left:8px solid #ff6ec7;
+    background:white;
+
+}
+
+.tarefa-card:nth-child(2n) .card{
+
+    border-left-color:#43e97b;
+
+}
+
+.tarefa-card:nth-child(3n) .card{
+
+    border-left-color:#845ef7;
+
+}
+
+.tarefa-card:nth-child(4n) .card{
+
+    border-left-color:#ff914d;
+
+}
+
+/* Texto */
+
+.text-secondary{
+
+    color:#7d7d7d !important;
+
+}
+
+/* Badge */
+
+.badge{
+
+    border-radius:20px;
+    padding:8px 14px;
+
+}
+
+/* Scroll */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:linear-gradient(#ff6ec7,#845ef7);
+
+    border-radius:20px;
+
+}
+
+/* ===========================
+       DARK MODE
+=========================== */
+
+.dark-mode{
+
+    background:#181825;
+    color:white;
+
+}
+
+.dark-mode .card{
+
+    background:#232336;
+
+}
+
+.dark-mode .card-header{
+
+    background:linear-gradient(135deg,#845ef7,#ff6ec7,#ff914d);
+
+}
+
+.dark-mode .card-footer{
+
+    background:#2b2b40;
+
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select{
+
+    background:#2d2d44;
+    color:white;
+    border-color:#555;
+
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus{
+
+    border-color:#ff6ec7;
+
+}
+
+.dark-mode .text-secondary{
+
+    color:#bdbdbd !important;
+
+}
